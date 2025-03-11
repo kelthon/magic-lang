@@ -1,0 +1,5 @@
+{
+  char a;
+  int x = 9;
+  float y = 1.625f;
+}
