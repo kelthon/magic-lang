@@ -9,7 +9,7 @@ extern std::ifstream fin;
 void FileReader::updateLocation() {
   column++;
 
-  if (peek == NEW_LINE_CHAR) {
+  if (peek == NEWLINE_CHAR) {
     line++;
     column = 1;
   }

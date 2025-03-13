@@ -1,5 +1,5 @@
-{
-  char a;
-  int x = 9;
-  float y = 1.625f;
+class Metrics {
+  char group;
+  int length = 35;
+  float mean = 1.625;
 }

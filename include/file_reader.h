@@ -3,10 +3,7 @@
 #include <cstdint>
 #include <iostream>
 
-#define ZERO_DIGIT_CHAR 48
-#define SPACE_CHAR 32
-#define NEW_LINE_CHAR 10
-#define TAB_CHAR 9
+#include "langdef.h"
 
 class FileReader {
  private:
