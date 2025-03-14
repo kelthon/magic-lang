@@ -32,6 +32,9 @@
 // Member access operator
 #define MEMBER_ACCESS_OPERATOR '.'
 
+// Inheritance operator
+#define INHERITANCE_OPERATOR ':'
+
 // Arithmetic operators
 #define ADDITION_OPERATOR '+'
 #define SUBTRACTION_OPERATOR '-'
@@ -41,13 +44,13 @@
 
 // Bitwise operators.
 #define BITWISE_AND_OPERATOR '&'
-#define BITWISE_OR_OPERATOR '|' 
+#define BITWISE_OR_OPERATOR '|'
 #define BITWISE_XOR_OPERATOR '^'
 #define BITWISE_NOT_OPERATOR '~'
 
 // Bitwise shift operators
-#define BITWISE_SHIFT_LEFT "<<"
-#define BITWISE_SHIFT_RIGHT ">>"
+#define BITWISE_SHIFT_LEFT_OPERATOR "<<"
+#define BITWISE_SHIFT_RIGHT_OPERATOR ">>"
 
 // Assignment operators
 #define SIMPLE_ASSIGN_OPERATOR '='
@@ -71,5 +74,7 @@
 #define GREATER_OR_EQUAL_OPERATOR ">="
 #define LESS_OR_EQUAL_OPERATOR "<="
 #define AND_OPERATOR "&&"
-#define OR_OPERATOR "||" 
+#define OR_OPERATOR "||"
 #define NOT_OPERATOR '!'
+
+int isoperator(char);

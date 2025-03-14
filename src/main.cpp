@@ -3,6 +3,8 @@
 #include <iostream>
 
 #include "file_reader.h"
+#include "langdef.h"
+#include "lexer.h"
 
 std::ifstream fin;
 
@@ -19,6 +21,13 @@ int main(int argc, char *argv[]) {
       cerr << "No such file or directory" << endl;
       return 1;
     }
+
+    Lexer scanner;
+
+    scanner.scan()->toString();
+    cout << "" << endl;
+    scanner.scan()->toString();
+    cout << "" << endl;
 
     fin.close();
   }
