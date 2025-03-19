@@ -3,7 +3,6 @@
 #include <iostream>
 
 using std::string;
-using std::cout;
 
 enum Tag {
   TYPE = 256,
@@ -15,18 +14,23 @@ enum Tag {
   LITERAL_FLOAT,
   LITERAL_INTEGER,
 
-  // Operators
-  SIMPLE_ASSIGN
+  // Operator
+  OPERATOR,
 };
 
 class Token {
  public:
   Token() : tag(0) {}
-  Token(char character) : tag(int(character)), lexeme({character}) {}
+  Token(char character, uint line, uint column)
+      : tag(int(character)), lexeme({character}), line(line), column(column) {}
   Token(int tag, string lexeme) : tag(tag), lexeme(lexeme) {}
-  virtual void toString() { cout << "<" << tag << ", " << lexeme <<">";}
+  Token(int tag, string lexeme, uint line, uint column)
+      : tag(tag), lexeme(lexeme), line(line), column(column) {}
+  void updatePosition(uint line, uint column);
+  virtual string toString();
 
  private:
   uint tag;
   string lexeme;
+  uint line, column;
 };
