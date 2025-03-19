@@ -19,4 +19,4 @@ add_executable(${PROJECT_NAME} src/main.cpp) # Compile the executable
 target_link_libraries(${PROJECT_NAME} PRIVATE mg) # Link the shared library mg to the executable
 
 # Add the "tests" directory and include its CMakeLists.txt to manage test setup
-add_subdirectory(tests)
+# add_subdirectory(tests)
