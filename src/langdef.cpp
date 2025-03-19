@@ -4,8 +4,8 @@
 
 using std::string;
 
-int isoperator(char character) {
-  string charset = "-:!.*/&%^+<=>|~";
+int issymbol(char character) {
+  string charset = "+-*/%=&|^~><!;,:'\".()[]{}";
   std::size_t pos = charset.find(character);
 
   return pos >= 0 && pos < charset.length();

@@ -77,4 +77,4 @@
 #define OR_OPERATOR "||"
 #define NOT_OPERATOR '!'
 
-int isoperator(char);
+int issymbol(char character);
