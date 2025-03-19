@@ -21,16 +21,11 @@ enum Tag {
 class Token {
  public:
   Token() : tag(0) {}
-  Token(char character, uint line, uint column)
-      : tag(int(character)), lexeme({character}), line(line), column(column) {}
+  Token(char character) : tag(int(character)), lexeme({character}) {}
   Token(int tag, string lexeme) : tag(tag), lexeme(lexeme) {}
-  Token(int tag, string lexeme, uint line, uint column)
-      : tag(tag), lexeme(lexeme), line(line), column(column) {}
-  void updatePosition(uint line, uint column);
   virtual string toString();
 
  private:
   uint tag;
   string lexeme;
-  uint line, column;
 };

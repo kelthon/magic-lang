@@ -31,8 +31,6 @@ void Lexer::nextNumber() {
   stringstream stream;
   bool isFloatNumber = false;
   int type = Tag::LITERAL_INTEGER;
-  uint line = reader.getCurrentLine();
-  uint column = reader.getCurrentColumn();
 
   while (isdigit(peek) || peek == DECIMAL_POINT_CHAR) {
     if (peek == DECIMAL_POINT_CHAR) {
@@ -49,15 +47,13 @@ void Lexer::nextNumber() {
     peek = reader.getChar();
   }
 
-  token = Token(type, stream.str(), line, column);
+  token = Token(type, stream.str());
 }
 
 /// @brief Gets keywords and reserved words and sets token
 void Lexer::nextIdentifier() {
   string word;
   stringstream stream;
-  uint line = reader.getCurrentLine();
-  uint column = reader.getCurrentColumn();
 
   while (isalnum(peek)) {
     stream << peek;
@@ -69,9 +65,8 @@ void Lexer::nextIdentifier() {
 
   if (iterator != tokenTable.end()) {
     token = iterator->second;
-    token.updatePosition(line, column);
   } else {
-    token = Token(Tag::TYPE, word, line, column);
+    token = Token(Tag::TYPE, word);
     tokenTable[word] = token;
   }
 }
@@ -80,8 +75,6 @@ void Lexer::nextIdentifier() {
 void Lexer::nextSymbol() {
   string symbol;
   stringstream stream;
-  uint line = reader.getCurrentLine();
-  uint column = reader.getCurrentColumn();
 
   while (issymbol(peek)) {
     stream << peek;
@@ -91,11 +84,11 @@ void Lexer::nextSymbol() {
   symbol = stream.str();
 
   if (symbol.length() == 1) {
-    token = Token(symbol[0], line, column);
+    token = Token(symbol[0]);
   }
 
   else {
-    token = Token(Tag::OPERATOR, symbol, line, column);
+    token = Token(Tag::OPERATOR, symbol);
   }
 }
 
