@@ -10,11 +10,11 @@ class FileReader {
   char peek;
   uint line;
   uint column;
+  void updatePosition();
 
  public:
   FileReader() : line(1), column(1) {};
-  char getchar();
-  uint getLineNumber();
-  uint getColumnNumber();
-  void updateLocation();
+  char getChar();
+  uint getCurrentLine();
+  uint getCurrentColumn();
 };

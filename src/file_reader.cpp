@@ -6,7 +6,7 @@
 
 extern std::ifstream fin;
 
-void FileReader::updateLocation() {
+void FileReader::updatePosition() {
   column++;
 
   if (peek == NEWLINE_CHAR) {
@@ -15,18 +15,13 @@ void FileReader::updateLocation() {
   }
 }
 
-char FileReader::getchar() {
-  char nextChar = fin.get();
-  updateLocation();
+char FileReader::getChar() {
+  peek = fin.get();
+  updatePosition();
 
-  if (nextChar == std::istream::traits_type::eof()) {
-    return EOF;
-  }
-
-  peek = static_cast<char>(nextChar);
   return peek;
 }
 
-uint FileReader::getLineNumber() { return line; }
+uint FileReader::getCurrentLine() { return line; }
 
-uint FileReader::getColumnNumber() { return column; }
+uint FileReader::getCurrentColumn() { return column; }
