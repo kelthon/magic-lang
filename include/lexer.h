@@ -17,11 +17,12 @@ class Lexer {
   unordered_map<string, Token> tokenTable;
 
   void removeWhiteSpaces();
-  void getNumber();
-  void getIdentifier();
-  void getOperator();
-
- public:
+  void nextNumber();
+  void nextIdentifier();
+  void nextSymbol();
+  
+  public:
   Lexer();
   Token* scan();
+  bool end();
 };

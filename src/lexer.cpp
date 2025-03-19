@@ -16,21 +16,23 @@ Lexer::Lexer() {
   tokenTable["char"] = Token(Tag::TYPE, "char");
   tokenTable["float"] = Token(Tag::TYPE, "float");
 
-  peek = reader.getchar();
+  peek = SPACE_CHAR;
 }
 
 /// @brief Removes white spaces
 void Lexer::removeWhiteSpaces() {
   while (isspace(peek)) {
-    peek = reader.getchar();
+    peek = reader.getChar();
   }
 }
 
 /// @brief Gets numbers and sets token
-void Lexer::getNumber() {
-  int type = Tag::LITERAL_INTEGER;
+void Lexer::nextNumber() {
   stringstream stream;
   bool isFloatNumber = false;
+  int type = Tag::LITERAL_INTEGER;
+  uint line = reader.getCurrentLine();
+  uint column = reader.getCurrentColumn();
 
   while (isdigit(peek) || peek == DECIMAL_POINT_CHAR) {
     if (peek == DECIMAL_POINT_CHAR) {
@@ -41,23 +43,25 @@ void Lexer::getNumber() {
       }
       type = Tag::LITERAL_FLOAT;
       isFloatNumber = true;
-
-      stream << peek;
-      peek = reader.getchar();
     }
+
+    stream << peek;
+    peek = reader.getChar();
   }
 
-  token = Token(type, stream.str());
+  token = Token(type, stream.str(), line, column);
 }
 
 /// @brief Gets keywords and reserved words and sets token
-void Lexer::getIdentifier() {
+void Lexer::nextIdentifier() {
   string word;
   stringstream stream;
+  uint line = reader.getCurrentLine();
+  uint column = reader.getCurrentColumn();
 
-  while (isalpha(peek)) {
+  while (isalnum(peek)) {
     stream << peek;
-    peek = reader.getchar();
+    peek = reader.getChar();
   }
   word = stream.str();
 
@@ -65,40 +69,58 @@ void Lexer::getIdentifier() {
 
   if (iterator != tokenTable.end()) {
     token = iterator->second;
+    token.updatePosition(line, column);
   } else {
-    token = Token(Tag::TYPE, word);
+    token = Token(Tag::TYPE, word, line, column);
     tokenTable[word] = token;
   }
 }
 
 /// @brief Gets operators and sets token
-void Lexer::getOperator() {
-  string op;
+void Lexer::nextSymbol() {
+  string symbol;
   stringstream stream;
+  uint line = reader.getCurrentLine();
+  uint column = reader.getCurrentColumn();
 
-  while (isoperator(peek)) {
+  while (issymbol(peek)) {
     stream << peek;
-    peek = reader.getchar();
+    peek = reader.getChar();
   }
 
-  op = stream.str();
+  symbol = stream.str();
 
-  switch (op[0]) {
-    case SIMPLE_ASSIGN_OPERATOR:
-      token = Token(Tag::SIMPLE_ASSIGN, op);
-      break;
+  if (symbol.length() == 1) {
+    token = Token(symbol[0], line, column);
+  }
 
-    default:
-      /// @todo: throw a syntax error
-      break;
+  else {
+    token = Token(Tag::OPERATOR, symbol, line, column);
   }
 }
 
 Token* Lexer::scan() {
-  if (isspace(peek)) removeWhiteSpaces();
-  if (isdigit(peek)) getNumber();
-  if (isalpha(peek)) getIdentifier();
-  if (isoperator(peek)) getOperator();
+  if (isspace(peek)) {
+    removeWhiteSpaces();
+  }
+
+  if (isdigit(peek)) {
+    nextNumber();
+  }
+
+  else if (isalpha(peek)) {
+    nextIdentifier();
+  }
+
+  else if (issymbol(peek)) {
+    nextSymbol();
+  }
+
+  else {
+    return nullptr;
+  }
 
   return &token;
 }
+
+bool Lexer::end() { return peek == EOF; }
