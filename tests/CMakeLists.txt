@@ -22,3 +22,6 @@ target_link_libraries(${PROJECT_NAME}_tests PRIVATE gtest gtest_main mg) # Link 
 # Enable testing and register the tests to be run with ctest
 enable_testing()
 add_test(NAME Tests COMMAND ${PROJECT_NAME}_tests) # Define the test target for ctest
+
+include(GoogleTest)
+gtest_discover_tests(${PROJECT_NAME}_tests)
