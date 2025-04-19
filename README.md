@@ -1,47 +1,55 @@
 # Project Magic
 
-Magic is a simple programming object oriented language
+Magic is a simple programming object-oriented language
 
 ## Grammar
 
 ### Main definitions
 
 ```txt
-program = "class" identifier "{" class_body "}";
+program = class_declaration
 
-class_body = field_declarations method_declarations constructor;
+class_declaration = "class" identifier class_body;
+
+class_body = "{" attribute_declarations constructor method_declarations "}";
 ```
 
 ### Constructors declarations
 
 ```txt
-constructor_declaration = identifier "(" parameters ")" constructor_body;
+constructor_declaration = constructor_signature constructor_body;
 
-constructor_body = '{' constructor_statements '}' statement_no_return ';';
+constructor_signature = identifier "(" parameters ")" 
 
-constructor_statements = statement_no_return constructor_statements | statement_no_return;
+constructor_body = '{' constructor_statements '}' statement_without_return ';';
+
+constructor_statements = statement_without_return constructor_statements | statement_without_return;
 ```
 
-### Methods and fields declarations
+### Methods and Attributes declarations
 
 ```txt
-field_declarations = field_declaration field_declarations | '';
+attribute_declarations = attribute_declaration attribute_declarations | empty;
 
-field_declaration = access_modifier modifiers declaration;
+attribute_declaration = access_modifier modifiers declaration;
 
-method_declarations = method_declaration method_declarations | ''; 
+method_declarations = method_declaration method_declarations | empty; 
 
-method_declaration = access_modifier modifiers type identifier '(' parameters ')' code_block;
+method_declaration = method_signature method_body;
+
+method_signature = access_modifier modifiers type identifier '(' parameters ')'
+
+method_body = '{' statements '}'
 ```
 
 ### Declarations and initializers
 
 ```txt
-declarations = declaration declarations | '';
+declarations = declaration declarations | empty;
 
 declaration = type identifier initializer ';';
 
-initializer = '=' expression | '';
+initializer = '=' expression | empty;
 ```
 
 ### Blocks and code blocks
@@ -51,9 +59,12 @@ code_block = '{' statements '}' | statement ';';
 
 statements = statement statements | statement;
 
-statement = statement_no_return | return_statement;
+statement = statement_without_return | return_statement;
 
-statement_no_return = expressions_statement | if_else_statement | while_statement | for_statement;
+statement_without_return = expressions
+                        | if_else_statement
+                        | while_statement
+                        | for_statement;
 
 return_statement = "return" expression ';';
 ```
@@ -63,33 +74,35 @@ return_statement = "return" expression ';';
 ```txt
 if_else_statement = if_statement | if_statement else_statement;
 
-if_statement = "if" '(' expression ')' code_block;
+if_statement = "if" '(' relational_expression ')' code_block;
 
 else_statement = "else" code_block;
 
-while_statement = "while" '(' expression ')' code_block;
+while_statement = "while" '(' relational_expression ')' code_block;
 
 for_statement = "for" '(' for_parameters ')' code_block;
 
-for_parameters = expression ';' expression ';' expression;
+for_parameters = for_initialization ';' relational_expression ';' for_increment;
+
+for_initialization = type identifier '=' expression
+
+for_increment = assignment_expression;
 ```
 
 ### Expressions
 
 ```txt
-expressions_statement = expression ';' | method_call ';' | member_access ';';
+
+expressions = expression expressions | expressions;
 
 expression = assignment_expression
-          | addition_expression
-          | subtraction_expression
-          | multiplication_expression
-          | division_expression
-          | or_expression
-          | and_expression
-          | not_expression
-          | equals_expression
-          | method_call
-          | member_access;
+            | addition_expression
+            | multiplication_expression
+            | priority_expression
+            | relational_expression
+            | method_call
+            | member_access;
+            | object_instance
 ```
 
 ### Operators and methods calls
@@ -97,19 +110,13 @@ expression = assignment_expression
 ```txt
 assignment_expression = identifier '=' expression;
 
-addition_expression = expression '+' expression;
+priority_expression = '(' expression ')'
 
-subtraction_expression = expression '-' expression;
+addition_expression = expression term_operator expression;
 
-multiplication_expression = expression '*' expression;
+multiplication_expression = expression factor_operator expression;
 
-or_expression = expression '||' expression;
-
-and_expression = expression '&&' expression;
-
-not_expression = '!' expression;
-
-equals_expression = expression '==' expression;
+relational_expression = expression relational_operator expression;
 
 method_call = object_instance '.' identifier '(' parameters ')';
 
@@ -121,7 +128,7 @@ object_instance = identifier | "this" | "super";
 ### Params and arguments
 
 ```txt
-parameters = parameter | parameter ',' parameters | '';
+parameters = parameter | parameter ',' parameters | empty;
 
 parameter = type identifier;
 
@@ -129,19 +136,29 @@ arguments = argument | argument ',' arguments;
 
 argument = integer_literal
          | float_literal
+         | double_literal
          | char_literal
          | string_literal
+         | bool_literal
          | array_literal
          | object_literal
-         | '';
+         | empty;
 ```
 
 ### Types and modifiers
 
 ```txt
-access_modifier = "public" | "private" | "protected" | '';
+access_modifier = "public"
+                  | "private" 
+                  | "protected"
+                  | empty;
 
-modifiers = "static" | "abstract" | "readonly" | "override" | "final" | '';
+modifiers = "static" 
+            | "abstract"
+            | "readonly"
+            | "override"
+            | "final"
+            | empty;
 
 type = "int"
       | "string"
@@ -159,27 +176,39 @@ array_literal = '{' arguments '}';
 
 object_literal = "new" identifier '(' arguments ')' | null_literal;
 
+bool_literal = "true" | "false" | 0 | 1 | "on" | "off" 
+
 null_literal = "null";
 
 float_literal = double_literal float_indicator;
 
 double_literal = integer fractional_part exponent_part; 
 
-integer_literal = digits | '-' digits; string_literal = '"'
+integer_literal = digits | '-'digits;
 
-characters '"'; char_literal = "'" character "'";
+string_literal = '"' characters '"';
+
+char_literal = "'" character "'";
 ```
 
 ### Literals details and auxiliary
 
 ```txt
-float_indicator = 'f' | 'F' | '';
+factor_operator = '*' | '/';
+
+term_operator = '+' | '-';
+
+identifier = [a-zA-Z_][a-zA-Z0-9_]*
+
+relational_operator = "==" | "!=" | "<" | ">" | "<=" | ">=";
+
+float_indicator = 'f' | 'F' | empty;
 
 exponent_part = 'e' exponent_sign digits 
                 | 'E' exponent_sign digits
-                | '';
+                | empty;
                 
-fractional_part = '.' digits | '';
+fractional_part = '.' digits | empty;
 
 exponent_sign = '' | '-' | '+';
 
