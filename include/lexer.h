@@ -9,20 +9,24 @@
 using std::string;
 using std::unordered_map;
 
+/**
+ * @brief Lexer class
+ * @note This class is responsible for scanning and tokenizing the source code
+*/ 
 class Lexer {
- private:
-  char peek;
-  Token token;
-  FileReader reader;
-  unordered_map<string, Token> tokenTable;
+  private:
+    char peek;
+    Token token;
+    FileReader reader;
+    unordered_map<string, Token> tokenTable;
 
-  void removeWhiteSpaces();
-  void nextNumber();
-  void nextIdentifier();
-  void nextSymbol();
-  
+    void skipWhiteSpaces();
+    void nextNumber();
+    void nextIdentifier();
+    void nextSymbol();
+
   public:
-  Lexer();
-  Token* scan();
-  bool end();
+    Lexer();
+    Token* scan();
+    bool end();
 };
