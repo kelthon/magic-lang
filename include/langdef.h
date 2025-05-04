@@ -10,6 +10,7 @@
 #define QUOTE_CHAR '\''
 #define DOUBLE_QUOTE_CHAR '"'
 #define DECIMAL_POINT_CHAR '.'
+#define FLOAT_INDICATOR 'f'
 
 // Common delimiters
 #define PARENTHESIS_OPEN '('
