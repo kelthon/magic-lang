@@ -9,9 +9,11 @@ Magic is a simple programming object-oriented language
 ```txt
 program = class_declaration
 
-class_declaration = "class" identifier class_body;
+class_declaration = class_declaration_header identifier class_body;
 
 class_body = "{" attribute_declarations constructor method_declarations "}";
+
+class_declaration_header = "class"
 ```
 
 ### Constructors declarations
@@ -176,7 +178,7 @@ array_literal = '{' arguments '}';
 
 object_literal = "new" identifier '(' arguments ')' | null_literal;
 
-bool_literal = "true" | "false" | 0 | 1 | "on" | "off" 
+bool_literal = "true" | "false" 
 
 null_literal = "null";
 
@@ -184,7 +186,7 @@ float_literal = double_literal float_indicator;
 
 double_literal = integer fractional_part exponent_part; 
 
-integer_literal = digits | '-'digits;
+integer_literal = digits
 
 string_literal = '"' characters '"';
 
