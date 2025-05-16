@@ -55,6 +55,8 @@
     "forward_list": "cpp",
     "list": "cpp",
     "format": "cpp",
-    "span": "cpp"
+    "span": "cpp",
+    "charconv": "cpp",
+    "ratio": "cpp"
   }
 }
