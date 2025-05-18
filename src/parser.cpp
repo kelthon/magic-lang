@@ -53,6 +53,7 @@ void Parser::parseIdentifier() {}
 
 unique_ptr<Declarations> Parser::parseDeclarations() {
   string typeName, identifierName;
+  unique_ptr<Expression> initialization = nullptr;
   vector<unique_ptr<Declaration>> declarations;
 
   while (lookahead != nullptr && !scanner->end()) {
@@ -70,14 +71,22 @@ unique_ptr<Declarations> Parser::parseDeclarations() {
                         lookahead->getLexeme() + "' instead.");
     }
 
+    if (Match('=')) {
+      initialization = parseExpression();
+    }
+
     if(!Match(';')) {
       throw SyntaxError("Expected a ';', but found '" +
                         lookahead->getLexeme() + "' instead.");
     }
 
     declarations.push_back(make_unique<Declaration>(
-        typeName, make_unique<Identifier>(identifierName)));
+        typeName, make_unique<Identifier>(identifierName), initialization));
   }
 
   return make_unique<Declarations>(move(declarations));
+}
+
+unique_ptr<Expression> Parser::parseExpression() {
+  
 }

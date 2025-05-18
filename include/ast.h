@@ -10,14 +10,14 @@ using std::vector;
 
 namespace ast {
 
-class Expression {
+class Node {
  public:
-  Expression() = default;
+  Node() = default;
   virtual string codegen() = 0;
-  virtual ~Expression() = default;
+  virtual ~Node() = default;
 };
 
-class Literal : Expression {
+class Literal : Node {
  public:
   Literal() = default;
   string codegen() override = 0;
@@ -50,7 +50,7 @@ class CharLiteral : Literal {
   char value;
 };
 
-class Identifier : Expression {
+class Identifier : Node {
  public:
   Identifier(string name) : name(name) {};
   string codegen() override;
@@ -59,18 +59,40 @@ class Identifier : Expression {
   string name;
 };
 
-class Declaration : Expression {
+class Expression : Node {
  public:
-  Declaration(string type, unique_ptr<Identifier> identifier)
-      : type(type), identifier(move(identifier)) {}
+  Expression() = default;
+  virtual string codegen() override = 0;
+};
+
+class AssignmentExpression : Expression {
+ public:
+  AssignmentExpression(unique_ptr<Identifier> LValue,
+                       unique_ptr<Expression> RValue)
+      : LValue(move(LValue)), RValue(move(RValue)) {}
+  string codegen() override;
+
+ private:
+  unique_ptr<Identifier> LValue;
+  unique_ptr<Expression> RValue;
+};
+
+class Declaration : Node {
+ public:
+  Declaration(string type, unique_ptr<Identifier> identifier,
+              unique_ptr<Expression> initialization)
+      : type(type),
+        identifier(move(identifier)),
+        initialization(move(initialization)) {}
   string codegen() override;
 
  private:
   string type;
   unique_ptr<Identifier> identifier;
+  unique_ptr<Expression> initialization;
 };
 
-class Declarations : Expression {
+class Declarations : Node {
  public:
   Declarations(vector<unique_ptr<Declaration>> declarations)
       : declarations(move(declarations)) {}
@@ -80,7 +102,7 @@ class Declarations : Expression {
   vector<unique_ptr<Declaration>> declarations;
 };
 
-class Program : Expression {
+class Program : Node {
  public:
   Program(unique_ptr<Declarations> declarations)
       : declarations(move(declarations)) {}

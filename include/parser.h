@@ -28,4 +28,5 @@ class Parser {
   void parseIdentifier();
   unique_ptr<Program> parseProgram();
   unique_ptr<Declarations> parseDeclarations();
+  unique_ptr<Expression> parseExpression();
 };

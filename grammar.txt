@@ -1,42 +1,49 @@
-program := declarations
+program         := declarations ;
 
-declarations := declaration declarations
+declarations    := declaration declarations
+                 | ε ;
 
-declaration := type identifier ('=' expression)? ';'
+declaration     := type identifier ('=' expression)? ';' ;
 
-expressions := (expression expressions)?
+expression      := assignment ;
 
-expression := term '+' term
-            | term '-' term
-            | factor '*' factor
-            | factor '/' factor
-            | op '==' op
-            | op '!=' op
-            | op '>=' op
-            | op '<=' op
-            | op '<' op
-            | op '>' op
-            | identifier '=' expression 
+assignment      := identifier '=' assignment
+                 | equality ;
 
+equality        := comparison (('==' | '!=') comparison)* ;
 
-literal := float_literal | integer_literal | char_literal
+comparison      := term (('>=' | '<=' | '>' | '<') term)* ;
 
-type := "int"
-      | "string"
-      | "bool"
-      | "float"
-      | "double"
-      | "char"
-      | identifier;
+term            := factor (('+' | '-') factor)* ;
 
-char_literal := '\'' character? '\''
+factor          := unary (('*' | '/') unary)* ;
 
-float_literal := integer fractional_part
+unary           := primary ;
 
-integer_literal := digits
+primary         := literal
+                 | identifier
+                 | '(' expression ')' ;
 
-identifier := [a-zA-Z_][a-zA-Z0-9_]*
-                
-fractional_part := ('.' digits)?
+literal         := float_literal
+                 | integer_literal
+                 | char_literal ;
 
-digits := [0-9]+;
+type            := 'int'
+                 | 'string'
+                 | 'bool'
+                 | 'float'
+                 | 'double'
+                 | 'char'
+                 | identifier ;
+
+char_literal    := '\'' ('\\'? character)? '\'' ;
+
+float_literal   := integer fractional_part ;
+
+integer_literal := digits ;
+
+fractional_part := '.' digits ;
+
+digits          := [0-9]+ ;
+
+identifier      := [a-zA-Z_][a-zA-Z0-9_]* ;
