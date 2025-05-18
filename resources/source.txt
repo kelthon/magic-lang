@@ -1,5 +1,3 @@
-class Metrics {
-  char group;
-  int length = 35;
-  float mean = 1.625;
-}
+char group;
+int length;
+float mean;

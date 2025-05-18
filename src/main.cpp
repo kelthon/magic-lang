@@ -35,7 +35,9 @@ int main(int argc, char *argv[]) {
   Lexer lex;
   Parser parser = Parser(&lex);
 
-  parser.parse();
+  auto tokens = parser.parse();
+
+  cout << tokens << endl;
 
   return 0;
 }

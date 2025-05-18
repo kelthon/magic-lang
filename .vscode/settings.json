@@ -57,6 +57,16 @@
     "format": "cpp",
     "span": "cpp",
     "charconv": "cpp",
-    "ratio": "cpp"
+    "ratio": "cpp",
+    "any": "cpp",
+    "condition_variable": "cpp",
+    "cstring": "cpp",
+    "map": "cpp",
+    "set": "cpp",
+    "mutex": "cpp",
+    "semaphore": "cpp",
+    "stop_token": "cpp",
+    "thread": "cpp",
+    "variant": "cpp"
   }
 }
