@@ -16,7 +16,7 @@ string CharLiteral::codegen() { return string(1, value); }
 
 string Identifier::codegen() { return name; }
 
-string Declaration::codegen() { return type + " " + identifier->codegen(); }
+string Declaration::codegen() { return type + " " + identifier->codegen() + ";"; }
 
 string Declarations::codegen() {
   stringstream code;
