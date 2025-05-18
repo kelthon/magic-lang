@@ -80,7 +80,7 @@ void Lexer::nextNumber() {
       // The number is invalid;
       if (isDoubleNumber || isFloatNumber) {
         throw SyntaxError(
-            "Invalid syntax: A period ('.') is already present in the number "
+            "A period ('.') is already present in the number "
             "and cannot be used again.");
         break;
       }
@@ -92,7 +92,7 @@ void Lexer::nextNumber() {
       // The number is invalid;
       if (isFloatNumber) {
         throw SyntaxError(
-            "Invalid syntax: A floating-point number cannot contain multiple "
+            "A floating-point number cannot contain multiple "
             "'f' characters.");
         break;
       }
