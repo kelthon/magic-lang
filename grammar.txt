@@ -1,0 +1,42 @@
+program := declarations
+
+declarations := declaration declarations
+
+declaration := type identifier ('=' expression)? ';'
+
+expressions := (expression expressions)?
+
+expression := term '+' term
+            | term '-' term
+            | factor '*' factor
+            | factor '/' factor
+            | op '==' op
+            | op '!=' op
+            | op '>=' op
+            | op '<=' op
+            | op '<' op
+            | op '>' op
+            | identifier '=' expression 
+
+
+literal := float_literal | integer_literal | char_literal
+
+type := "int"
+      | "string"
+      | "bool"
+      | "float"
+      | "double"
+      | "char"
+      | identifier;
+
+char_literal := '\'' character? '\''
+
+float_literal := integer fractional_part
+
+integer_literal := digits
+
+identifier := [a-zA-Z_][a-zA-Z0-9_]*
+                
+fractional_part := ('.' digits)?
+
+digits := [0-9]+;
