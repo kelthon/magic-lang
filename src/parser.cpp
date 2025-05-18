@@ -59,18 +59,21 @@ unique_ptr<Declarations> Parser::parseDeclarations() {
     typeName = lookahead->getLexeme();
 
     if (!MatchType()) {
-      throw SyntaxError("Invalid Syntax: Expected a type name, but found '" +
+      throw SyntaxError("Expected a type name, but found '" +
                         lookahead->getLexeme() + "' instead.");
     }
 
     identifierName = lookahead->getLexeme();
 
     if (!Match(TK_IDENTIFIER)) {
-      throw SyntaxError("Invalid Syntax: Expected a identifier, but found '" +
+      throw SyntaxError("Expected a identifier, but found '" +
                         lookahead->getLexeme() + "' instead.");
     }
 
-    Match(';');
+    if(!Match(';')) {
+      throw SyntaxError("Expected a ';', but found '" +
+                        lookahead->getLexeme() + "' instead.");
+    }
 
     declarations.push_back(make_unique<Declaration>(
         typeName, make_unique<Identifier>(identifierName)));
