@@ -12,6 +12,6 @@ class SyntaxError : public exception {
 
  public:
   SyntaxError() : message("A SyntaxError has occurred") {}
-  SyntaxError(string message) : message(message) {}
+  explicit SyntaxError(const string& message) : message(message) {}
   const char* what() const noexcept override;
 };
