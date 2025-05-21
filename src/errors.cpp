@@ -5,5 +5,6 @@
 using std::string;
 
 const char* SyntaxError::what() const noexcept {
-  return message.c_str();
+  string reason = "Invalid Syntax: " + message;
+  return reason.c_str();
 }
