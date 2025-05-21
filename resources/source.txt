@@ -1,3 +1,5 @@
-char group;
-int length = 35;
-float mean;
+class Main {
+  char group;
+  int length = 35;
+  float mean;
+}
