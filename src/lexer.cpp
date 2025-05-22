@@ -3,7 +3,7 @@
 #include <iostream>
 #include <sstream>
 
-#include "error.h"
+#include "errors.h"
 #include "file_reader.h"
 #include "langdef.h"
 #include "token.h"
