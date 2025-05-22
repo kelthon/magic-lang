@@ -26,9 +26,8 @@ class Parser {
   bool Match(int type);
   bool MatchType();
   bool MatchLiteral();
-  
-  unique_ptr<Literal> parseLiteral();
+
   unique_ptr<Program> parseProgram();
-  unique_ptr<Declarations> parseDeclarations();
-  unique_ptr<Expression> parseExpression();
+  unique_ptr<ClassDeclaration> parseClass();
+  unique_ptr<Identifier> parseIdentifier();
 };

@@ -7,20 +7,27 @@ declaration     := type identifier ('=' expression)? ';' ;
 
 expression      := assignment ;
 
-assignment      := identifier '=' assignment
-                 | equality ;
+assignment      := equality
+                 | identifier '=' assignment;
 
-equality        := comparison equality_binary ;
-equality_binary := (('==' | '!=') comparison)* ;
+equality        := comparison 
+                | equality '==' equality; 
+                | equality '!=' equality ;
 
-comparison      := term comparison_binary ;
-comparison_binary := (('>=' | '<=' | '>' | '<') term)* ;
+comparison      := term 
+                 | comparison '>=' comparison ;
+                 | comparison '<=' comparison ;
+                 | comparison '>' comparison ;
+                 | comparison '<' comparison ;
 
-term            := factor term_binary ;
-term_binary     := (('+' | '-') factor)* ;
+term            := factor 
+                 | term '+' term ;
+                 | term '-' term ;
 
-factor          := unary factor_binary ;
-factor_binary   := (('*' | '/') unary)* ;
+
+factor          := unary 
+                 | factor '*' factor;
+                 | factor '/' factor;
 
 unary           := primary ;
 
