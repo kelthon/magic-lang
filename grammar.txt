@@ -1,4 +1,4 @@
-program         := declarations ;
+program         := 'class' '{' declarations '}';
 
 declarations    := declaration declarations
                  | ε ;
@@ -10,13 +10,17 @@ expression      := assignment ;
 assignment      := identifier '=' assignment
                  | equality ;
 
-equality        := comparison (('==' | '!=') comparison)* ;
+equality        := comparison equality_binary ;
+equality_binary := (('==' | '!=') comparison)* ;
 
-comparison      := term (('>=' | '<=' | '>' | '<') term)* ;
+comparison      := term comparison_binary ;
+comparison_binary := (('>=' | '<=' | '>' | '<') term)* ;
 
-term            := factor (('+' | '-') factor)* ;
+term            := factor term_binary ;
+term_binary     := (('+' | '-') factor)* ;
 
-factor          := unary (('*' | '/') unary)* ;
+factor          := unary factor_binary ;
+factor_binary   := (('*' | '/') unary)* ;
 
 unary           := primary ;
 
