@@ -17,7 +17,7 @@ using namespace ast;
 /// @brief Builds an AST
 class Parser {
  public:
-  Token* lookahead;
+  Token *lookahead;
   Parser(Lexer *lex);
   string parse();
 
@@ -25,7 +25,9 @@ class Parser {
   Lexer *scanner;
   bool Match(int type);
   bool MatchType();
-  void parseIdentifier();
+  bool MatchLiteral();
+  
+  unique_ptr<Literal> parseLiteral();
   unique_ptr<Program> parseProgram();
   unique_ptr<Declarations> parseDeclarations();
   unique_ptr<Expression> parseExpression();

@@ -16,7 +16,73 @@ string CharLiteral::codegen() { return string(1, value); }
 
 string Identifier::codegen() { return name; }
 
-string AssignmentExpression::codegen() {
+string Unary::codegen() { return primary->codegen(); }
+
+string BinaryFactor::codegen() {
+  return operatorSymbol + " " + unary->codegen();
+}
+
+string Factor::codegen() {
+  stringstream code;
+
+  code << unary->codegen();
+
+  for (const std::unique_ptr<ast::BinaryFactor> &factor : binaryFactor) {
+    code << " " + factor->codegen();
+  }
+
+  return code.str();
+}
+
+string BinaryTerm::codegen() {
+  return operatorSymbol + " " + factor->codegen();
+}
+
+string Term::codegen() {
+  stringstream code;
+
+  code << factor->codegen();
+
+  for (const std::unique_ptr<ast::BinaryTerm> &term : binaryTerm) {
+    code << " " + term->codegen();
+  }
+
+  return code.str();
+}
+
+string BinaryComparison::codegen() {
+  return operatorSymbol + " " + term->codegen();
+}
+
+string Comparison::codegen() {
+  stringstream code;
+
+  code << term->codegen();
+
+  for (const std::unique_ptr<ast::BinaryComparison> &comparison : binaryComparison) {
+    code << " " + comparison->codegen();
+  }
+
+  return code.str();
+}
+
+string BinaryEquality::codegen() {
+  return operatorSymbol + " " + comparison->codegen();
+}
+
+string Equality::codegen() {
+  stringstream code;
+
+  code << comparison->codegen();
+
+  for (const std::unique_ptr<ast::BinaryEquality> &equality : binaryEquality) {
+    code << " " + equality->codegen();
+  }
+
+  return code.str();
+}
+
+string Assignment::codegen() {
   return LValue->codegen() + "=" + RValue->codegen();
 }
 
