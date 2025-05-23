@@ -17,17 +17,15 @@ string CharLiteral::codegen() { return to_string(value); }
 string Identifier::codegen() { return name; }
 
 string Attribute::codegen() {
-  stringstream code;
+  return typeName + " " + attributeName->codegen() + ";";
+}
 
-  code << typeName + " " + attributeName->codegen();
-
+string Attribute::codegen(const string& scope) {
   if (value != nullptr) {
-    code << "=" + value->codegen();
+    return scope + attributeName->codegen() + "=" + value->codegen() + ";";
   }
 
-  code << ";";
-
-  return code.str();
+  return "";
 }
 
 string Declaration::codegen() {
@@ -36,11 +34,21 @@ string Declaration::codegen() {
 
   code << "typedef struct {";
 
-  for (const unique_ptr<Attribute>&attribute : classAttributes) {
+  for (const unique_ptr<Attribute>& attribute : classAttributes) {
     code << attribute->codegen();
   }
 
   code << "}" + classId + ";";
+
+  // Initialization of all attributes
+
+  code << "int main(int argc,char*argv[]){";
+  
+  for (const unique_ptr<Attribute>& attribute : classAttributes) {
+    code << attribute->codegen(classId + '.');
+  }
+
+  code << "return 0;}";
 
   return code.str();
 }

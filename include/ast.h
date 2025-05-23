@@ -71,6 +71,7 @@ class Attribute : public Node {
         attributeName(move(attributeName)),
         value(move(value)) {};
   string codegen() override;
+  string codegen(const string &scope);
 
  private:
   string typeName;
