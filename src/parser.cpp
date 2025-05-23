@@ -112,7 +112,7 @@ unique_ptr<Attribute> Parser::parseClassAttribute() {
   unique_ptr<Value> attributeValue;
 
   if (Match('=')) {
-    unique_ptr<Value> attributeValue = parseValue();
+    attributeValue = parseValue();
   }
 
   if (!Match(';')) {
@@ -156,7 +156,7 @@ unique_ptr<Value> Parser::parseValue() {
 
   auto iterator = valueParseMap.find(type);
 
-  if(iterator == valueParseMap.end()) {
+  if (iterator == valueParseMap.end()) {
     throw SyntaxError("Unexpected token '" + literal + "'");
   }
 
