@@ -50,19 +50,20 @@ enum TokenType {
 };
 
 class Token {
-  public:
+ public:
   Token() = default;
   Token(char character) : type(int(character)), lexeme({character}) {}
   Token(int type, string lexeme) : type(type), lexeme(lexeme) {}
-  
+
   int getType() { return type; }
   string getLexeme() { return lexeme; }
-  
+
+  static bool isType(int tag);
+  static bool isLiteral(int tag);
+
   virtual string toString();
-  
-  private:
+
+ private:
   int type;
   string lexeme;
 };
-
-bool isTypeDeclaration(Token* token);
