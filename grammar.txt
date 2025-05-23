@@ -1,60 +1,49 @@
-program         := 'class' '{' declarations '}';
+program             := declaration 
 
-declarations    := declaration declarations
-                 | ε ;
+declaration         := 'class' '{' attributes '}';
 
-declaration     := type identifier ('=' expression)? ';' ;
+attributes          := attribute attributes
+                     | ε ;
 
-expression      := assignment ;
+attribute           := type identifier attribute_init ';' ;
 
-assignment      := equality
-                 | identifier '=' assignment;
+attribute_init      := '=' value
+                     | ε ;
 
-equality        := comparison 
-                | equality '==' equality; 
-                | equality '!=' equality ;
+value               := float_literal
+                     | integer_literal
+                     | char_literal ;
 
-comparison      := term 
-                 | comparison '>=' comparison ;
-                 | comparison '<=' comparison ;
-                 | comparison '>' comparison ;
-                 | comparison '<' comparison ;
+type                := 'int'
+                     | 'string'
+                     | 'bool'
+                     | 'float'
+                     | 'double'
+                     | 'char'
+                     | identifier ;
 
-term            := factor 
-                 | term '+' term ;
-                 | term '-' term ;
+identifier          := [a-zA-Z_][a-zA-Z0-9_]* ;
 
+char_literal        := '\'' character '\'' ;
 
-factor          := unary 
-                 | factor '*' factor;
-                 | factor '/' factor;
+float_literal       := integer fractional_part ;
 
-unary           := primary ;
+integer_literal     := digit_sequence ;
 
-primary         := literal
-                 | identifier
-                 | '(' expression ')' ;
+fractional_part     := '.' digit_sequence ;
 
-literal         := float_literal
-                 | integer_literal
-                 | char_literal ;
+character           := alnum_character | escape_sequence | special_character
 
-type            := 'int'
-                 | 'string'
-                 | 'bool'
-                 | 'float'
-                 | 'double'
-                 | 'char'
-                 | identifier ;
+alnum_character     := alpha_character | numeric_character ;
 
-char_literal    := '\'' ('\\'? character)? '\'' ;
+special_character   := [_!@#$%&\|*/-+;:.,{}[]<>'"`~^]
 
-float_literal   := integer fractional_part ;
+alpha_character     := [a-zA-Z] ;
 
-integer_literal := digits ;
+numeric_character   := [0-9] ;
 
-fractional_part := '.' digits ;
+escape_sequence     := '\\' (['"\\abfnrtvs]) ;
 
-digits          := [0-9]+ ;
+whitespace          := [\t\n\r\f\v\s] ;
 
-identifier      := [a-zA-Z_][a-zA-Z0-9_]* ;
+digit_sequence      := [0-9]+
